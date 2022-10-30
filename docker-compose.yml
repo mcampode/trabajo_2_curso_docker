@@ -1,0 +1,34 @@
+services:
+  slackfrontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.reactUI
+    ports:
+      - "3000:3000"    
+    depends_on:
+      - db
+    networks:
+      - miredmarco
+  nodebackend: 
+    build:
+      context: ./server
+      dockerfile: Dockerfile.node
+    ports: 
+      - "9000:9000"   
+    depends_on:
+      - db
+    networks:
+      - miredmarco
+  db:
+    volumes:
+      - volumenmarco:/data/db
+    image: mongo:latest
+    ports:
+      - "27017:27017"  
+    networks:
+      - miredmarco
+volumes:
+   volumenmarco:
+networks:
+   miredmarco:
+   
